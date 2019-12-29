@@ -1,0 +1,54 @@
+Software:
+Use Coolterm for easy programming using serial AT commands.
+Use digi's XCTU to update firmware and look at all settings at once.
+
+Sean's redneck lingo used in this readme:
+Receiver- The XBee that receives the signal stored inside R2
+Transmitter- The XBee that sends the signal from a handheld controller
+
+Notes on buttons:
+Buttons on digital inputs should actually take the pin to ground versus bring Vcc to the pin.  Otherwise, you'll have to have a pulldown resistor
+and give it a command to turn off the XBee internal pull up resistor.  In turn the receiver will always have voltage until the transmitter button
+is pressed, but that is no big deal in software.  You may need to put a resistor at the microcontroller that is being fed the value if you use
+a digital pin.
+
+
+Receiver for R2D2:
+Vin must be 3.3V!
+Com something typcally other than 1, 9600 baud
+ATID 3001 (use the same for the transmitter)
+ATDH 0
+ATDL 1 (Address of the transmitter to talk to)
+ATMY 2 (the address of the receiver, the transitter will be set to 1)
+ATPR FF 
+atir 0
+atia 1 (address of the transmitter or you can use 0xFFFF to allow any board to change this boards output)
+ATD0 2 (a2d)
+atd1 2
+atd2 4
+atd3 0
+atd4 0
+atd5 1
+atd6 0
+atd7 1
+att2 3
+atp0 2
+atp1 2
+atpt 4
+
+
+
+Trasmitter for R2D2:
+Vin must be 3.3V!
+Pin labebel RES on the sparkfun board is the Vref to use when using sensors/potentiometers/joysticks.
+Com something typically other than 1, 9600 baud
+ATID 3001 (use the same for the transmitter)
+ATDH 0
+ATDL 2 (Address of the transmitter to talk to)
+ATMY 1 (the address of the receiver, the transitter will be set to 1)
+ATIR 14 (sample rate - this prevents the signal from flickering)
+ATIA FFFFFFFFFFFFFFFF
+atd0 3 (digital input) or 2 (analog input), etc
+
+
+
